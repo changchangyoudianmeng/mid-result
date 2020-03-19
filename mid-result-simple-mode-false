@@ -1,0 +1,97 @@
+The stmt after ScheduleOps : // attr [compute(B, 0x1326790)] realize_scope = ""
+realize B([0, m]) {
+  produce B {
+    for (i.outer, 0, floordiv((m + 31), 32)) {
+      for (i.inner, 0, 32) {
+        if (likely(((i.inner + (i.outer*32)) < m))) {
+          if (likely(((i.inner + (i.outer*32)) < m))) {
+            B((i.inner + (i.outer*32))) =(A((i.inner + (i.outer*32)))*2f)
+          }
+        }
+      }
+    }
+  }
+}
+
+The stmt after InjectPrefetch: // attr [compute(B, 0x1326790)] realize_scope = ""
+realize B([0, m]) {
+  produce B {
+    for (i.outer, 0, floordiv((m + 31), 32)) {
+      for (i.inner, 0, 32) {
+        if (likely(((i.inner + (i.outer*32)) < m))) {
+          if (likely(((i.inner + (i.outer*32)) < m))) {
+            B((i.inner + (i.outer*32))) =(A((i.inner + (i.outer*32)))*2f)
+          }
+        }
+      }
+    }
+  }
+}
+
+The stmt after phase 0: // attr [compute(B, 0x1326790)] realize_scope = ""
+realize B([0, m]) {
+  produce B {
+    for (i.outer, 0, floordiv((m + 31), 32)) {
+      for (i.inner, 0, 32) {
+        if (likely(((i.inner + (i.outer*32)) < m))) {
+          if (likely(((i.inner + (i.outer*32)) < m))) {
+            B((i.inner + (i.outer*32))) =(A((i.inner + (i.outer*32)))*2f)
+          }
+        }
+      }
+    }
+  }
+}
+
+The stmt after RewriteForTensorCore: // attr [compute(B, 0x1326790)] realize_scope = ""
+realize B([0, m]) {
+  produce B {
+    for (i.outer, 0, floordiv((m + 31), 32)) {
+      for (i.inner, 0, 32) {
+        if (likely(((i.inner + (i.outer*32)) < m))) {
+          if (likely(((i.inner + (i.outer*32)) < m))) {
+            B((i.inner + (i.outer*32))) =(A((i.inner + (i.outer*32)))*2f)
+          }
+        }
+      }
+    }
+  }
+}
+
+The stmt after StorageFlatten: produce B {
+  for (i.outer, 0, floordiv((m + 31), 32)) {
+    for (i.inner, 0, 32) {
+      if (likely(((i.inner + (i.outer*32)) < m))) {
+        if (likely(((i.inner + (i.outer*32)) < m))) {
+          B[(((i.outer*32) + i.inner)*stride)] = (A[(((i.outer*32) + i.inner)*stride)]*2f)
+        }
+      }
+    }
+  }
+}
+
+The stmt after CanonicalSimplify: produce B {
+  for (i.outer, 0, floordiv((m + 31), 32)) {
+    for (i.inner, 0, 32) {
+      if (likely((((i.outer*32) + i.inner) < m))) {
+        if (likely((((i.outer*32) + i.inner) < m))) {
+          B[(((i.outer*32) + i.inner)*stride)] = (A[(((i.outer*32) + i.inner)*stride)]*2f)
+        }
+      }
+    }
+  }
+}
+
+produce B {
+  for (i.outer, 0, floordiv((m + 31), 32)) {
+    for (i.inner, 0, 32) {
+      if (likely((((i.outer*32) + i.inner) < m))) {
+        if (likely((((i.outer*32) + i.inner) < m))) {
+          B[(((i.outer*32) + i.inner)*stride)] = (A[(((i.outer*32) + i.inner)*stride)]*2f)
+        }
+      }
+    }
+  }
+}
+
+The stmt after split: LoweredFunc(default_function, 0x12f9760)

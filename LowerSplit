@@ -1,0 +1,51 @@
+TVM is a domain specific language for efficient kernel construction.
+
+In this tutorial, we will show you how to schedule the computation by
+various primitives provided by TVM.
+"""
+from __future__ import absolute_import, print_function
+
+import tvm
+from tvm import te
+import numpy as np
+
+######################################################################
+#
+# There often exist several methods to compute the same result,
+# however, different methods will result in different locality and
+# performance. So TVM asks user to provide how to execute the
+# computation called **Schedule**.
+#
+# A **Schedule** is a set of transformation of computation that
+# transforms the loop of computations in the program.
+#
+
+# declare some variables for use later
+n = te.var('n')
+m = te.var('m')
+######################################################################
+# One schedule is composed by multiple stages, and one
+# **Stage** represents schedule for one operation. We provide various
+# methods to schedule every stage.
+
+######################################################################
+# split
+# -----
+# :code:`split` can split a specified axis into two axises by
+# :code:`factor`.
+A = te.placeholder((m,), name='A')
+B = te.compute((m,), lambda i: A[i]*2, name='B')
+
+s = te.create_schedule(B.op)
+xo, xi = s[B].split(B.op.axis[0], factor=32)
+print("The stmt after split:",tvm.lower(s, [A, B], simple_mode=True))
+
+######################################################################
+# You can also split a axis by :code:`nparts`, which splits the axis
+# contrary with :code:`factor`.
+"""A = te.placeholder((m,), name='A')
+B = te.compute((m,), lambda i: A[i], name='B')
+
+s = te.create_schedule(B.op)
+bx, tx = s[B].split(B.op.axis[0], nparts=32)
+print(tvm.lower(s, [A, B], simple_mode=True))"""
